@@ -1,0 +1,823 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery - Rotary Club of Chennai Legends</title>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&amp;display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom scrollbar for a cleaner look */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f8fafc;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Iconify stroke width adjustment to match Linear style */
+    .iconify {
+      stroke-width: 1.5 !important;
+    }
+
+    /* Hide scrollbar in lightbox but keep scroll functionality */
+    .lightbox-scroll::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+
+    /* Dropdown animation */
+    .dropdown-enter {
+      opacity: 0;
+      transform: scale(0.95) translateY(-10px);
+    }
+
+    .dropdown-enter-active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      transition: opacity 200ms ease-out, transform 200ms ease-out;
+    }
+
+    .dropdown-exit {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .dropdown-exit-active {
+      opacity: 0;
+      transform: scale(0.95) translateY(-10px);
+      transition: opacity 150ms ease-in, transform 150ms ease-in;
+    }
+  </style>
+</head>
+
+<body class="font-['Open_Sans'] antialiased text-slate-600 bg-white selection:bg-[#005DAA] selection:text-white">
+  <!-- 1. Header / Navigation -->
+  <app-header></app-header>
+
+  <!-- 2. Banner Section -->
+  <section class="relative w-full h-[320px] lg:h-[380px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img
+        src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1920&amp;q=80"
+        alt="Rotary Club Fellowship" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-[#005DAA] opacity-70 mix-blend-multiply"></div>
+      <div class="absolute inset-0 bg-black/20"></div>
+    </div>
+
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-6 text-center pt-16">
+      <nav
+        class="flex justify-center items-center gap-2 text-xs font-semibold text-white/80 uppercase tracking-widest mb-4">
+        <a href="#" class="hover:text-white transition-colors">Home</a>
+        <span class="text-white/60">/</span>
+        <span class="text-[#F7A81B]">Gallery</span>
+      </nav>
+      <h1 class="text-4xl lg:text-5xl font-bold text-white tracking-tight">
+        Gallery
+      </h1>
+    </div>
+  </section>
+
+  <!-- 3. Gallery Section -->
+  <section class="py-16 lg:py-20 bg-white min-h-[600px]">
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- Filter Bar -->
+      <div class="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6" id="gallery-filters">
+        <!-- Category Pills (Horizontal Scroll on Mobile) -->
+        <div class="overflow-x-auto pb-2 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 scrollbar-hide">
+          <div class="flex items-center gap-2 min-w-max">
+            <button onclick="setCategory('all', this)"
+              class="category-btn active px-4 py-1.5 text-sm font-medium rounded-full bg-[#005DAA] text-white border border-[#005DAA] hover:shadow-sm transition-all duration-200">
+              All
+            </button>
+            <button onclick="setCategory('service', this)"
+              class="category-btn px-4 py-1.5 text-sm font-medium rounded-full bg-white text-slate-600 border border-slate-200 hover:border-[#005DAA] hover:text-[#005DAA] transition-all duration-200">
+              Service Projects
+            </button>
+            <button onclick="setCategory('events', this)"
+              class="category-btn px-4 py-1.5 text-sm font-medium rounded-full bg-white text-slate-600 border border-slate-200 hover:border-[#005DAA] hover:text-[#005DAA] transition-all duration-200">
+              Events &amp; Fellowship
+            </button>
+            <button onclick="setCategory('youth', this)"
+              class="category-btn px-4 py-1.5 text-sm font-medium rounded-full bg-white text-slate-600 border border-slate-200 hover:border-[#005DAA] hover:text-[#005DAA] transition-all duration-200">
+              Youth
+            </button>
+            <button onclick="setCategory('awards', this)"
+              class="category-btn px-4 py-1.5 text-sm font-medium rounded-full bg-white text-slate-600 border border-slate-200 hover:border-[#005DAA] hover:text-[#005DAA] transition-all duration-200">
+              Awards
+            </button>
+          </div>
+        </div>
+
+        <!-- Rotary Year Dropdown -->
+        <div class="relative z-30" id="year-filter-container">
+          <div class="flex items-center gap-3">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider hidden sm:block">
+              Rotary Year
+            </span>
+            <button onclick="toggleYearDropdown()"
+              class="flex items-center justify-between gap-3 w-48 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 shadow-sm hover:border-[#005DAA] focus:outline-none focus:ring-2 focus:ring-[#005DAA]/20 transition-all">
+              <span id="current-year-label">All Years</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="text-slate-400">
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Dropdown Menu -->
+          <div id="year-dropdown"
+            class="hidden absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-lg shadow-xl py-1 origin-top-right transform transition-all duration-200">
+            <button onclick="setYear('all', 'All Years')"
+              class="w-full text-left px-4 py-2.5 text-sm text-slate-600 hover:text-[#005DAA] hover:bg-slate-50 transition-colors flex items-center justify-between group">
+              All Years
+              <svg id="check-all" class="opacity-100 text-[#005DAA]" xmlns="http://www.w3.org/2000/svg" width="16"
+                height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+            <div class="h-px bg-slate-100 my-1"></div>
+            <button onclick="setYear('2024-25', 'RY 2024–25')"
+              class="w-full text-left px-4 py-2.5 text-sm text-slate-600 hover:text-[#005DAA] hover:bg-slate-50 transition-colors flex items-center justify-between group">
+              RY 2024–25
+              <svg id="check-2024-25" class="opacity-0 text-[#005DAA]" xmlns="http://www.w3.org/2000/svg" width="16"
+                height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+            <button onclick="setYear('2023-24', 'RY 2023–24')"
+              class="w-full text-left px-4 py-2.5 text-sm text-slate-600 hover:text-[#005DAA] hover:bg-slate-50 transition-colors flex items-center justify-between group">
+              RY 2023–24
+              <svg id="check-2023-24" class="opacity-0 text-[#005DAA]" xmlns="http://www.w3.org/2000/svg" width="16"
+                height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+            <button onclick="setYear('2022-23', 'RY 2022–23')"
+              class="w-full text-left px-4 py-2.5 text-sm text-slate-600 hover:text-[#005DAA] hover:bg-slate-50 transition-colors flex items-center justify-between group">
+              RY 2022–23
+              <svg id="check-2022-23" class="opacity-0 text-[#005DAA]" xmlns="http://www.w3.org/2000/svg" width="16"
+                height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Helper Text -->
+      <div id="filter-status" class="mb-8 text-sm text-slate-500 font-medium hidden">
+        Showing albums for
+        <span id="status-year" class="text-[#005DAA] font-semibold">
+          RY 2024-25
+        </span>
+      </div>
+
+      <!-- Masonry Grid -->
+      <div id="gallery-wrapper">
+        <!-- Albums Grid -->
+        <div id="albums-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Album 1 -->
+          <div class="album-card group cursor-pointer" onclick="openAlbum('service-1')" data-category="service"
+            data-ry="2023-24">
+            <div
+              class="relative overflow-hidden rounded-xl bg-slate-100 aspect-[4/3] mb-4 shadow-sm border border-slate-100">
+              <img
+                src="https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                alt="Cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+              <div
+                class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-md text-white text-[10px] font-bold tracking-wide flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                  <circle cx="9" cy="9" r="2"></circle>
+                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                </svg>
+                12 Photos
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span
+                  class="bg-white/95 text-[#005DAA] px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                  View Album
+                </span>
+              </div>
+            </div>
+            <h3
+              class="text-lg font-bold text-slate-800 group-hover:text-[#005DAA] transition-colors leading-tight mb-1">
+              Annual Health Camp
+            </h3>
+            <div class="flex flex-wrap items-center gap-y-1 gap-x-3 text-xs text-slate-500 font-medium">
+              <span class="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-slate-400">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Mar 15, 2024
+              </span>
+              <span class="text-slate-300">|</span>
+              <span>North Chennai</span>
+            </div>
+          </div>
+          <!-- Album 2 -->
+          <div class="album-card group cursor-pointer" onclick="openAlbum('events-1')" data-category="events"
+            data-ry="2024-25">
+            <div
+              class="relative overflow-hidden rounded-xl bg-slate-100 aspect-[4/3] mb-4 shadow-sm border border-slate-100">
+              <img
+                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                alt="Cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+              <div
+                class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-md text-white text-[10px] font-bold tracking-wide flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                  <circle cx="9" cy="9" r="2"></circle>
+                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                </svg>
+                24 Photos
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span
+                  class="bg-white/95 text-[#005DAA] px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                  View Album
+                </span>
+              </div>
+            </div>
+            <h3
+              class="text-lg font-bold text-slate-800 group-hover:text-[#005DAA] transition-colors leading-tight mb-1">
+              Installation Ceremony
+            </h3>
+            <div class="flex flex-wrap items-center gap-y-1 gap-x-3 text-xs text-slate-500 font-medium">
+              <span class="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-slate-400">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                July 1, 2024
+              </span>
+              <span class="text-slate-300">|</span>
+              <span>ITC Grand Chola</span>
+            </div>
+          </div>
+          <!-- Album 3 -->
+          <div class="album-card group cursor-pointer" onclick="openAlbum('youth-1')" data-category="youth"
+            data-ry="2023-24">
+            <div
+              class="relative overflow-hidden rounded-xl bg-slate-100 aspect-[4/3] mb-4 shadow-sm border border-slate-100">
+              <img
+                src="https://images.unsplash.com/photo-1526976668912-1a811878dd37?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                alt="Cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+              <div
+                class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-md text-white text-[10px] font-bold tracking-wide flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                  <circle cx="9" cy="9" r="2"></circle>
+                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                </svg>
+                18 Photos
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span
+                  class="bg-white/95 text-[#005DAA] px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                  View Album
+                </span>
+              </div>
+            </div>
+            <h3
+              class="text-lg font-bold text-slate-800 group-hover:text-[#005DAA] transition-colors leading-tight mb-1">
+              Interact Workshop
+            </h3>
+            <div class="flex flex-wrap items-center gap-y-1 gap-x-3 text-xs text-slate-500 font-medium">
+              <span class="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-slate-400">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Aug 12, 2023
+              </span>
+              <span class="text-slate-300">|</span>
+              <span>Community Hall</span>
+            </div>
+          </div>
+          <!-- Album 4 -->
+          <div class="album-card group cursor-pointer" onclick="openAlbum('awards-1')" data-category="awards"
+            data-ry="2023-24">
+            <div
+              class="relative overflow-hidden rounded-xl bg-slate-100 aspect-[4/3] mb-4 shadow-sm border border-slate-100">
+              <img
+                src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/917d6f93-fb36-439a-8c48-884b67b35381_1600w.jpg"
+                alt="Cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+              <div
+                class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-md text-white text-[10px] font-bold tracking-wide flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                  <circle cx="9" cy="9" r="2"></circle>
+                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                </svg>
+                8 Photos
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span
+                  class="bg-white/95 text-[#005DAA] px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                  View Album
+                </span>
+              </div>
+            </div>
+            <h3
+              class="text-lg font-bold text-slate-800 group-hover:text-[#005DAA] transition-colors leading-tight mb-1">
+              District Awards Night
+            </h3>
+            <div class="flex flex-wrap items-center gap-y-1 gap-x-3 text-xs text-slate-500 font-medium">
+              <span class="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-slate-400">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                June 25, 2024
+              </span>
+              <span class="text-slate-300">|</span>
+              <span>Chennai Convention Ctr</span>
+            </div>
+          </div>
+          <!-- Album 5 -->
+          <div class="album-card group cursor-pointer" onclick="openAlbum('service-2')" data-category="service"
+            data-ry="2023-24">
+            <div
+              class="relative overflow-hidden rounded-xl bg-slate-100 aspect-[4/3] mb-4 shadow-sm border border-slate-100">
+              <img
+                src="https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                alt="Cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+              <div
+                class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-md text-white text-[10px] font-bold tracking-wide flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                  <circle cx="9" cy="9" r="2"></circle>
+                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                </svg>
+                15 Photos
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span
+                  class="bg-white/95 text-[#005DAA] px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                  View Album
+                </span>
+              </div>
+            </div>
+            <h3
+              class="text-lg font-bold text-slate-800 group-hover:text-[#005DAA] transition-colors leading-tight mb-1">
+              Coastal Cleanup
+            </h3>
+            <div class="flex flex-wrap items-center gap-y-1 gap-x-3 text-xs text-slate-500 font-medium">
+              <span class="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-slate-400">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Sept 18, 2023
+              </span>
+              <span class="text-slate-300">|</span>
+              <span>Marina Beach</span>
+            </div>
+          </div>
+          <!-- Album 6 -->
+          <div class="album-card group cursor-pointer" onclick="openAlbum('events-2')" data-category="events"
+            data-ry="2023-24">
+            <div
+              class="relative overflow-hidden rounded-xl bg-slate-100 aspect-[4/3] mb-4 shadow-sm border border-slate-100">
+              <img
+                src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                alt="Cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+              <div
+                class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-md text-white text-[10px] font-bold tracking-wide flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                  <circle cx="9" cy="9" r="2"></circle>
+                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                </svg>
+                20 Photos
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span
+                  class="bg-white/95 text-[#005DAA] px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                  View Album
+                </span>
+              </div>
+            </div>
+            <h3
+              class="text-lg font-bold text-slate-800 group-hover:text-[#005DAA] transition-colors leading-tight mb-1">
+              Annual Family Picnic
+            </h3>
+            <div class="flex flex-wrap items-center gap-y-1 gap-x-3 text-xs text-slate-500 font-medium">
+              <span class="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-slate-400">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Jan 20, 2024
+              </span>
+              <span class="text-slate-300">|</span>
+              <span>Mahabalipuram</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detail View (Hidden) -->
+        <div id="album-detail-view" class="hidden animate-fade-in">
+          <div class="mb-8">
+            <button onclick="closeAlbum()"
+              class="group flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-[#005DAA] transition-colors mb-6">
+              <div class="p-1 rounded-full bg-slate-100 group-hover:bg-[#005DAA]/10 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m15 18-6-6 6-6"></path>
+                </svg>
+              </div>
+              Back to Gallery
+            </button>
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-100">
+              <div class="flex-1">
+                <h2 id="detail-title" class="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight mb-3">
+                  Album Title
+                </h2>
+                <div class="flex flex-wrap items-center gap-4 text-sm text-slate-500">
+                  <span id="detail-date" class="flex items-center gap-1.5 font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="text-slate-400">
+                      <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    Date
+                  </span>
+                  <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                  <span id="detail-location" class="flex items-center gap-1.5 font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="text-slate-400">
+                      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    Location
+                  </span>
+                </div>
+                <p id="detail-desc" class="mt-4 text-slate-600 leading-relaxed max-w-3xl text-sm">
+                  Description goes here.
+                </p>
+              </div>
+              <div class="flex gap-3">
+                <button
+                  class="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-white hover:text-[#005DAA] hover:border-[#005DAA] transition-all">
+                  Share
+                </button>
+                <button
+                  class="hidden sm:inline-flex px-4 py-2 text-sm font-medium text-white bg-[#005DAA] rounded-lg shadow-sm hover:bg-[#004a8f] transition-all">
+                  Download All
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Photos Grid -->
+          <div id="detail-photos" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <!-- JS populates this -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden flex-col items-center justify-center py-20 text-center">
+        <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="text-slate-400">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <h3 class="text-slate-900 font-semibold mb-1">No albums found</h3>
+        <p class="text-slate-500 text-sm">
+          Try selecting a different Rotary Year or category.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox Modal (UNCHANGED logic) -->
+  <div id="lightbox" class="fixed inset-0 z-[100] hidden" aria-hidden="true">
+    <div class="absolute inset-0 bg-slate-900/95 backdrop-blur-sm transition-opacity" onclick="closeLightbox()"></div>
+    <button onclick="closeLightbox()"
+      class="absolute top-6 right-6 z-[101] text-white/70 hover:text-white transition-colors p-2">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="relative w-full h-full flex items-center justify-center p-4 md:p-10 pointer-events-none">
+      <div
+        class="bg-black w-full max-w-5xl rounded-lg overflow-hidden flex flex-col md:flex-row shadow-2xl pointer-events-auto max-h-[90vh]">
+        <div class="w-full md:w-2/3 bg-black flex items-center justify-center relative group">
+          <img id="lightbox-img" src="" alt="Gallery Image"
+            class="w-full h-full object-contain max-h-[60vh] md:max-h-[90vh]">
+          <button onclick="changeImage(-1)"
+            class="lightbox-nav absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/50 text-white hover:text-[#F7A81B] rounded-full hover:bg-black/80 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 transform hover:scale-110 outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m15 18-6-6 6-6"></path>
+            </svg>
+          </button>
+          <button onclick="changeImage(1)"
+            class="lightbox-nav absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/50 text-white hover:text-[#F7A81B] rounded-full hover:bg-black/80 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 transform hover:scale-110 outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </button>
+          <div id="image-counter"
+            class="absolute bottom-6 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-black/60 backdrop-blur-sm text-white/90 text-xs font-medium rounded-full border border-white/10 tracking-wide select-none">
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/3 bg-slate-900 p-8 flex flex-col justify-center border-l border-white/10 overflow-y-auto lightbox-scroll">
+          <div id="lightbox-caption"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Footer -->
+  <app-footer></app-footer>
+
+  <script src="components/header.js"></script>
+  <script src="components/footer.js"></script>
+
+  <!-- Scripts -->
+  <script>
+    // --- Data Source ---
+    const albumsData = {
+      'service-1': {
+        title: 'Annual Health Camp 2024',
+        date: 'March 15, 2024',
+        location: 'North Chennai Community Hall',
+        desc: 'Our dedicated team of 15 doctors and 40 volunteers organized a comprehensive health camp. Over 500 residents received free checkups, medication, and eye screenings.',
+        cover: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+        baseImg: 'https://images.unsplash.com/photo-1576091160'
+      },
+      'events-1': {
+        title: 'Installation Ceremony 2024',
+        date: 'July 1, 2024',
+        location: 'ITC Grand Chola',
+        desc: 'A grand evening celebrating the new leadership team for RY 2024-25. Rtn. Kumar Rajendran took oath as the 25th President of our club in the presence of District Governor.',
+        cover: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+        baseImg: 'https://images.unsplash.com/photo-1511632765'
+      },
+      'youth-1': {
+        title: 'Interact Leadership Workshop',
+        date: 'August 12, 2023',
+        location: 'Tagore Engineering College',
+        desc: 'Empowering the next generation. Over 200 Interactors from 15 schools participated in a day-long workshop on leadership, public speaking, and community service.',
+        cover: 'https://images.unsplash.com/photo-1526976668912-1a811878dd37?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+        baseImg: 'https://images.unsplash.com/photo-1529156069'
+      },
+      'awards-1': {
+        title: 'District Awards Night',
+        date: 'June 25, 2024',
+        location: 'Chennai Trade Centre',
+        desc: 'A proud moment for Chennai Legends as we swept 12 awards including the prestigious Best Club Award and Best President Award for the year.',
+        cover: 'https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/917d6f93-fb36-439a-8c48-884b67b35381_1600w.jpg',
+        baseImg: 'https://images.unsplash.com/photo-156762090'
+      },
+      'service-2': {
+        title: 'Coastal Cleanup Drive',
+        date: 'September 18, 2023',
+        location: 'Marina Beach, Light House',
+        desc: 'In collaboration with local NGOs, we removed over 500kg of plastic waste from the shoreline. A great morning of service and fellowship.',
+        cover: 'https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+        baseImg: 'https://images.unsplash.com/photo-1618477461'
+      },
+      'events-2': {
+        title: 'Annual Family Picnic',
+        date: 'January 20, 2024',
+        location: 'Radisson Blu Temple Bay',
+        desc: 'Fun, frolic, and bonding! Our members and their families enjoyed a relaxing weekend getaway with games, music, and delicious food.',
+        cover: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+        baseImg: 'https://images.unsplash.com/photo-1543269865'
+      }
+    };
+
+    // --- State ---
+    let currentFilters = { category: 'all', year: 'all' };
+    let currentAlbumPhotos = [];
+    let currentPhotoIndex = 0;
+
+    // --- Filter Logic ---
+    function setCategory(category, btn) {
+      currentFilters.category = category;
+      document.querySelectorAll('.category-btn').forEach(b => {
+        b.className = 'category-btn px-4 py-1.5 text-sm font-medium rounded-full bg-white text-slate-600 border border-slate-200 hover:border-[#005DAA] hover:text-[#005DAA] transition-all duration-200';
+      });
+      btn.className = 'category-btn active px-4 py-1.5 text-sm font-medium rounded-full bg-[#005DAA] text-white border border-[#005DAA] hover:shadow-sm transition-all duration-200';
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const items = document.querySelectorAll('.album-card');
+      let visibleCount = 0;
+      items.forEach(item => {
+        const itemCat = item.getAttribute('data-category');
+        const itemYear = item.getAttribute('data-ry');
+        const matchCat = currentFilters.category === 'all' || itemCat === currentFilters.category;
+        const matchYear = currentFilters.year === 'all' || itemYear === currentFilters.year;
+        if (matchCat && matchYear) {
+          item.style.display = 'block';
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      const emptyState = document.getElementById('empty-state');
+      if (visibleCount === 0) {
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+      } else {
+        emptyState.classList.add('hidden');
+        emptyState.classList.remove('flex');
+      }
+    }
+
+    function toggleYearDropdown() {
+      const dropdown = document.getElementById('year-dropdown');
+      if (dropdown.classList.contains('hidden')) {
+        dropdown.classList.remove('hidden');
+      } else {
+        dropdown.classList.add('hidden');
+      }
+    }
+
+    function setYear(year, label) {
+      currentFilters.year = year;
+      document.getElementById('current-year-label').textContent = label;
+      document.getElementById('check-all').classList.toggle('opacity-0', year !== 'all');
+      document.querySelectorAll('[id^="check-20"]').forEach(c => c.classList.add('opacity-0'));
+      if (year !== 'all') document.getElementById(`check-${year}`).classList.remove('opacity-0');
+
+      toggleYearDropdown();
+
+      const statusDiv = document.getElementById('filter-status');
+      if (year !== 'all') {
+        statusDiv.classList.remove('hidden');
+        document.getElementById('status-year').textContent = label;
+      } else {
+        statusDiv.classList.add('hidden');
+      }
+      applyFilters();
+    }
+
+    // --- Album Logic ---
+    function openAlbum(albumId) {
+      const album = albumsData[albumId];
+      if (!album) return;
+
+      // Populate Photos for Lightbox
+      currentAlbumPhotos = [];
+      for (let i = 0; i < 15; i++) {
+        const imgUrl = i === 0 ? album.cover : `${album.baseImg}?random=${i}&w=1200&q=80`;
+        currentAlbumPhotos.push(imgUrl);
+      }
+
+      // Set up lightbox caption with album info
+      const caption = document.getElementById('lightbox-caption');
+      caption.innerHTML = `
+            <div class="space-y-4 animate-fade-in">
+                <h3 class="text-2xl font-bold text-white leading-tight">${album.title}</h3>
+                <div class="flex flex-wrap items-center gap-4 text-sm text-slate-400">
+                    <span class="flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${album.date}</span>
+                    <span class="w-1 h-1 bg-slate-600 rounded-full"></span>
+                    <span class="flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${album.location}</span>
+                </div>
+                <p class="text-slate-300 leading-relaxed text-sm border-t border-white/10 pt-4">${album.desc}</p>
+            </div>
+        `;
+
+      // Open lightbox immediately
+      openLightbox(0);
+    }
+
+    function closeAlbum() {
+      // Functionality moved to Lightbox close
+    }
+
+    // --- Lightbox ---
+    function openLightbox(index) {
+      currentPhotoIndex = index;
+      updateLightbox();
+      document.getElementById('lightbox').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function updateLightbox() {
+      const img = document.getElementById('lightbox-img');
+      img.style.opacity = '0.5';
+      setTimeout(() => img.style.opacity = '1', 150);
+      img.src = currentAlbumPhotos[currentPhotoIndex];
+
+      document.getElementById('image-counter').textContent = `${currentPhotoIndex + 1} / ${currentAlbumPhotos.length}`;
+      // Caption logic is now handled in openAlbum to show album details
+    }
+
+    function changeImage(dir) {
+      currentPhotoIndex = (currentPhotoIndex + dir + currentAlbumPhotos.length) % currentAlbumPhotos.length;
+      updateLightbox();
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Keyboard Nav
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('lightbox').classList.contains('hidden')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') changeImage(-1);
+        if (e.key === 'ArrowRight') changeImage(1);
+      }
+    });
+
+    // Close dropdown on click outside
+    window.addEventListener('click', function (e) {
+      const container = document.getElementById('year-filter-container');
+      if (container && !container.contains(e.target)) {
+        const dropdown = document.getElementById('year-dropdown');
+        if (dropdown && !dropdown.classList.contains('hidden')) {
+          dropdown.classList.add('hidden');
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>
