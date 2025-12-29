@@ -20,7 +20,7 @@ class AppFooter extends HTMLElement {
                     </div>
                     <p class="text-sm text-slate-400 mb-6 leading-relaxed">
                         Rotary Club of Chennai Legends is part of Rotary International
-                        District 3232. We are dedicated to Service Above Self.
+                        District 3234. We are dedicated to Service Above Self.
                     </p>
                     <div class="flex gap-4">
                         <a href="#" class="text-slate-500 hover:text-white transition-colors">
