@@ -143,7 +143,7 @@ class AppHeader extends HTMLElement {
                     <div
                         class="absolute top-full -left-4 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left">
                         <div class="bg-white border border-slate-100 shadow-xl rounded-xl w-64 py-2 flex flex-col">
-                            <a href="#"
+                            <a href="news-media.html"
                                 class="px-5 py-2.5 text-sm text-slate-600 hover:text-[#005DAA] hover:bg-slate-50">
                                 News
                             </a>
@@ -318,7 +318,7 @@ class AppHeader extends HTMLElement {
                         </svg>
                     </summary>
                     <div class="flex flex-col pl-4 mt-2 space-y-2 border-l-2 border-slate-100">
-                        <a href="#" class="text-sm text-slate-600 hover:text-[#005DAA] py-1">News</a>
+                        <a href="news-media.html" class="text-sm text-slate-600 hover:text-[#005DAA] py-1">News</a>
                         <a href="#" class="text-sm text-slate-600 hover:text-[#005DAA] py-1">Diary</a>
                         <a href="#" class="text-sm text-slate-600 hover:text-[#005DAA] py-1">Upcoming Events</a>
                         <a href="#" class="text-sm text-slate-600 hover:text-[#005DAA] py-1">Past Events</a>
