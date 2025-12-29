@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/rotary-logo.png?v=2" type="image/x-icon">
+    <link rel="icon" href="images/rotary-logo.png?v=2" type="image/png">
+    <title>News & Media - Rotary Club of Chennai Legends</title>
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <!-- PapaParse for Google Sheets -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Iconify stroke width adjustment to match Linear style */
+        .iconify {
+            stroke-width: 1.5 !important;
+        }
+    </style>
+</head>
+
+<body class="font-['Open_Sans'] antialiased text-slate-600 bg-white selection:bg-[#005DAA] selection:text-white">
+    <!-- Header -->
+    <app-header></app-header>
+
+    <!-- 2. Banner Section -->
+    <section class="relative w-full h-[320px] lg:h-[380px] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1920&amp;q=80"
+                alt="News & Media" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-[#005DAA] opacity-70 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-black/20"></div>
+        </div>
+
+        <div class="relative z-10 w-full max-w-7xl mx-auto px-6 text-center pt-16">
+            <nav
+                class="flex justify-center items-center gap-2 text-xs font-semibold text-white/80 uppercase tracking-widest mb-4">
+                <a href="#" class="hover:text-white transition-colors">Home</a>
+                <span class="text-white/60">/</span>
+                <span class="text-[#F7A81B]">News & Media</span>
+            </nav>
+            <h1 class="text-4xl lg:text-5xl font-bold text-white tracking-tight">
+                News & Media
+            </h1>
+        </div>
+    </section>
+
+    <!-- News Grid Section -->
+    <section class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Rotary News</h2>
+                        <span
+                            class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700 animate-pulse">
+                            <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+                            LIVE
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-2 text-slate-500 text-sm">
+                        <p>Latest updates from Rotary Chennai</p>
+                        <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                        <p id="last-updated" class="text-slate-400 text-xs uppercase tracking-wide">Last updated: Just
+                            now</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading" class="flex flex-col items-center justify-center py-24 min-h-[500px]">
+                <img src="images/rotary-logo2.png" alt="Loading..." class="w-30 h-24 animate-bounce opacity-90"
+                    style="animation-duration: 8s;">
+                <p id="loading-text"
+                    class="mt-6 text-[#005DAA] text-sm tracking-widest font-bold uppercase animate-pulse">Fetching
+                    Updated News</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="error"
+                class="hidden flex flex-col items-center justify-center py-20 bg-white rounded-xl border border-red-100 p-8 text-center">
+                <div class="w-12 h-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-alert-circle">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" x2="12" y1="8" y2="12" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Unable to Load News</h3>
+                <p class="text-slate-500 mb-6 max-w-sm mx-auto">We couldn't fetch the live feed. This might be a
+                    network
+                    issue or external service downtime.</p>
+                <div class="flex gap-4 justify-center">
+                    <button onclick="loadSheetData()"
+                        class="px-4 py-2 bg-slate-100 text-slate-700 font-medium rounded-lg hover:bg-slate-200 transition-colors">
+                        Try Again
+                    </button>
+                    <a href="https://www.rotary.org/en/news-media" target="_blank"
+                        class="px-4 py-2 bg-[#005DAA] text-white font-medium rounded-lg hover:bg-[#004a87] transition-colors">
+                        Visit Rotary.org
+                    </a>
+                </div>
+            </div>
+
+            <!-- News Container -->
+            <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                <!-- News items will be populated here -->
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <app-footer></app-footer>
+
+    <script src="components/header.js"></script>
+    <script src="components/footer.js"></script>
+    <script>
+        // ==========================================
+        // CONFIGURATION: GOOGLE SHEET INTEGRATION
+        // 1. Create a Google Sheet with these headers: Date, Title, Description, Image, Link
+        // 2. Go to File > Share > Publish to web
+        // 3. Select "Entire Document" and "Comma-separated values (.csv)"
+        // 4. Copy the link and paste it below inside the quotes:
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTzeyxWVCg4sbrxuw4GnUFWaJFPxs4dwBjFTY1YVKQSjAIqvh4LIcu7RwFjrxmBCoZvxLmRICZArO6C/pub?output=csv'; // <--- PASTE YOUR CSV LINK HERE
+
+        // Example Data (Shown if no Sheet URL is provided yet)
+        const DEMO_DATA = [
+            {
+                Date: '2025-10-24',
+                Title: 'Rotary Club of Chennai Legends Hosts Global Summit',
+                Description: 'Leaders from 20 countries gathered in Chennai to discuss sustainable community development and water conservation projects.',
+                Image: 'https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                Link: '#'
+            },
+            {
+                Date: '2025-10-15',
+                Title: 'Mega Health Camp Benefits 500+ Families',
+                Description: 'Our annual health camp provided free screenings, medicine, and consultations to underserved communities in North Chennai.',
+                Image: 'https://images.unsplash.com/photo-1584515933487-9bdb75f49f77?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                Link: '#'
+            },
+            {
+                Date: '2025-10-01',
+                Title: 'Youth Leadership Awards 2025',
+                Description: 'Celebrating the achievements of young change-makers in our district who are leading the way in social impact.',
+                Image: 'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                Link: '#'
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSheetData();
+        });
+
+        async function loadSheetData() {
+            const loading = document.getElementById('loading');
+            const newsGrid = document.getElementById('news-grid');
+            const loadingText = document.getElementById('loading-text');
+
+            loadingText.textContent = 'Connecting to Live News Feed…';
+
+            // If no URL configured, show Demo Data
+            if (!SHEET_URL) {
+                console.warn('No Google Sheet URL provided. Showing demo data.');
+                setTimeout(() => {
+                    renderNews(DEMO_DATA);
+                    // For demo data, just show current time or a fixed time
+                    updateTimestamp(new Date());
+                    loading.classList.add('hidden');
+                    newsGrid.classList.remove('hidden');
+                }, 800);
+                return;
+            }
+
+            try {
+                const response = await fetch(SHEET_URL);
+                if (!response.ok) throw new Error('Network response was not ok');
+
+                // Get Last-Modified header
+                const lastModifiedHeader = response.headers.get('Last-Modified');
+                const lastUpdatedDate = lastModifiedHeader ? new Date(lastModifiedHeader) : new Date();
+
+                const csvText = await response.text();
+
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function (results) {
+                        // Normalize keys (remove extra spaces from headers)
+                        const items = results.data.map(item => {
+                            const newItem = {};
+                            Object.keys(item).forEach(key => {
+                                newItem[key.trim()] = item[key];
+                            });
+                            return newItem;
+                        });
+
+                        // Sort by Date (Newest First) if Date column exists
+                        if (items.length && items[0].Date) {
+                            items.sort((a, b) => new Date(b.Date) - new Date(a.Date));
+                        }
+
+                        renderNews(items);
+                        updateTimestamp(lastUpdatedDate);
+
+                        loading.classList.add('hidden');
+                        newsGrid.classList.remove('hidden');
+                    },
+                    error: function (err) {
+                        console.error('Error parsing sheet:', err);
+                        throw err;
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error fetching/parsing sheet:', error);
+                document.getElementById('error').classList.remove('hidden');
+                loading.classList.add('hidden');
+            }
+        }
+
+        function updateTimestamp(dateObj) {
+            const date = dateObj || new Date();
+            // Format: "Oct 24, 2025, 10:30 AM"
+            const options = {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('last-updated').textContent = `Last updated: ${date.toLocaleDateString('en-US', options)}`;
+        }
+
+        function renderNews(items) {
+            const newsGrid = document.getElementById('news-grid');
+
+            if (items.length === 0) {
+                newsGrid.innerHTML = `
+                    <div class="col-span-1 md:col-span-3 text-center py-10">
+                        <p class="text-slate-500">No news found in the sheet.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            newsGrid.innerHTML = items.map(item => {
+                // Fallbacks - Case insensitive mapping could be added but assuming Headers match instructions
+                const image = item.Image || 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+
+                // Flexible Date Parsing
+                let dateStr = 'Recent';
+                if (item.Date) {
+                    const parsed = new Date(item.Date);
+                    if (!isNaN(parsed)) {
+                        dateStr = parsed.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                    } else {
+                        dateStr = item.Date; // Use original string if parsing fails
+                    }
+                }
+
+                const title = item.Title || 'Untitled Update';
+                const desc = item.Description || '';
+                const link = item.Link || '#';
+
+                return `
+                    <article class="bg-white rounded-xl border border-slate-100 shadow-xl shadow-slate-900/5 overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 group h-full">
+                        <a href="${link}" target="_blank" class="block relative h-56 overflow-hidden bg-slate-200">
+                            <img src="${image}" 
+                                 alt="${title}" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';"
+                            >
+                            <div class="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0 transition-colors"></div>
+                            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider text-slate-800 shadow-sm">
+                                ${dateStr}
+                            </div>
+                        </a>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div class="mb-4">
+                                <span class="text-[#005DAA] text-xs font-bold uppercase tracking-widest">Rotary News</span>
+                                <h3 class="text-xl font-bold text-slate-900 mt-2 mb-3 leading-tight group-hover:text-[#005DAA] transition-colors">
+                                    <a href="${link}" target="_blank">${title}</a>
+                                </h3>
+                                <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                                    ${desc}
+                                </p>
+                            </div>
+                            <div class="mt-auto pt-4 border-t border-slate-100">
+                                <a href="${link}" target="_blank" class="inline-flex items-center text-sm font-semibold text-[#005DAA] hover:text-[#003d73] transition-colors">
+                                    Read Full Story
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1">
+                                        <path d="M5 12h14m-7-7l7 7l-7 7"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+
+</html>
